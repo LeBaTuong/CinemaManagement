@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ticket implements IParseModel {
+public class Ticket implements IParseModel<Ticket> {
     private long ticketID;
     //private long movieID;
     private long scheduleID;

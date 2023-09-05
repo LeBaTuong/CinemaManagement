@@ -19,11 +19,13 @@ public class ScheduleView {
     ScheduleService scheduleService;
     MovieService movieService;
     RoomService roomService;
-    public ScheduleView(){
+
+    public ScheduleView() {
         scheduleService = new ScheduleService();
         movieService = new MovieService();
         roomService = new RoomService();
     }
+
     public void laucher() {
         boolean checkAction = false;
         do {
@@ -36,15 +38,6 @@ public class ScheduleView {
             System.out.println("Nhập 5: Sắp xếp theo (Vào trong chọn thêm menu: tên/tuổi/giới tính/dob + TĂNG DẦN/GIẢM DẦN) ");
             System.out.println("Nhập 6: Tìm kiếm theo ");
 
-            /**
-             System.out.println("Menu quản lý Sản phẩm: ");
-             System.out.println("Nhập 1. Xem danh sách ");
-             System.out.println("Nhập 2. Thêm user");
-             System.out.println("Nhập 3. Sửa user");
-             System.out.println("Nhập 4. Xóa user theo ID");
-             System.out.println("Nhập 5: Sắp xếp theo (Vào trong chọn thêm menu: tên/tuổi/giới tính/dob + TĂNG DẦN/GIẢM DẦN) ");
-             System.out.println("Nhập 6: Tìm kiếm theo ");
-             */
 
             int actionMenu = Integer.parseInt(scanner.nextLine());
             switch (actionMenu) {
@@ -59,7 +52,6 @@ public class ScheduleView {
                 case 3: {
                     creatSchedule();
                     break;
-
                 }
                 case 4: {
                     updateShedule();
@@ -99,19 +91,19 @@ public class ScheduleView {
         System.out.println("Nhập ngày chiếu: (YYYY-MM-dd)");
         LocalDate dob = DateUtils.parseDate(scanner.nextLine());
         System.out.println("Nhập thời gian bắt đầu: ");
-        LocalTime time1=null;
+        LocalTime time1 = null;
         boolean checkContinueOrderItem = true;
 
         do {
-            time1= LocalTime.parse(scanner.nextLine());
+            time1 = LocalTime.parse(scanner.nextLine());
             if (!scheduleService.isValidTimeStartSchedule(roomID, dob, time1)) {
                 System.err.println("The account already exists(Tài khoản đã tồn tại)");
                 System.out.println("Please enter again(Mời nhập lại):");
-                checkContinueOrderItem=true;
+                checkContinueOrderItem = true;
 
-            }else {
+            } else {
                 //System.out.println(time1);
-                checkContinueOrderItem=false;
+                checkContinueOrderItem = false;
             }
 
 
@@ -128,6 +120,7 @@ public class ScheduleView {
 
 
     }
+
     private void UpdateSchedule() {
         System.out.println("Nhập id cần thay đổi: ");
         long id = Long.parseLong(scanner.nextLine());
@@ -147,8 +140,9 @@ public class ScheduleView {
                     schedule.getScheduleStart(), schedule.getScheduleEnd());
         }
     }
-    public void showScheduleID(long id){
-      Schedule schedule = scheduleService.findScheduleById(id);
+
+    public void showScheduleID(long id) {
+        Schedule schedule = scheduleService.findScheduleById(id);
         System.out.printf("%10s | %20s | %20s | %30s | %20s | %10s \n", "ScheduleID", "Room", "Movie", "Ngày chiếu", "thời gian bắt đầu", "thời gian kết thúc");
         Movie movieID = movieService.findMoviceById(schedule.getMovieID());
         Room roomID = roomService.findRoomByIdRoom(schedule.getRoomID());
@@ -158,7 +152,8 @@ public class ScheduleView {
 
 
     }
-    public void showScheduleIDSeat(long id){
+
+    public void showScheduleIDSeat(long id) {
         Schedule schedule = scheduleService.findScheduleById(id);
         System.out.printf("%10s | %20s | %20s | %30s | %20s | %10s \n", "ScheduleID", "Room", "Movie", "Ngày chiếu", "thời gian bắt đầu", "thời gian kết thúc");
         Movie movieID = movieService.findMoviceById(schedule.getMovieID());
@@ -167,12 +162,12 @@ public class ScheduleView {
                 schedule.getScheduleID(), roomID.getRoomName(), movieID.getMovieName(), schedule.getScheduleDate(),
                 schedule.getScheduleStart(), schedule.getScheduleEnd());
         //Room room = roomService.findRoomByIdRoom(id);
-        System.out.println("Tên phòng: " +roomID.getRoomName());
+        System.out.println("Tên phòng: " + roomID.getRoomName());
         System.out.println("số lượng ghế: " + roomID.getQuantitySeat());
 
-        for(Seat seat: roomID.getSeats()) {
+        for (Seat seat : roomID.getSeats()) {
             System.out.printf("%10s | %30s | %30s \n",
-                    seat.getSeatID(), seat.getSeatNumber(),seat.geteSeatStatus());
+                    seat.getSeatID(), seat.getSeatNumber(), seat.geteSeatStatus());
         }
 
     }
@@ -180,7 +175,6 @@ public class ScheduleView {
     public static void main(String[] args) {
         ScheduleView scheduleView = new ScheduleView();
         scheduleView.laucher();
-
 
 
     }

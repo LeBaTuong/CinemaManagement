@@ -3,11 +3,12 @@ package view;
 import java.util.Scanner;
 
 public class RegisterView {
-    private  final String fileClient = "./data/clients.txt";
+    private final String fileClient = "./data/clients.txt";
 
 
-    private  Scanner scanner = new Scanner(System.in);
-    public  void Register() {
+    private Scanner scanner = new Scanner(System.in);
+
+    public void Register() {
 //        List<Client> clients= ClientService.getInstance().getAllClient();
 //        long id = System.currentTimeMillis() % 100000;
 //        String fullName = registerCheckName("Enter name: The name consists of 6 characters(Nhập tên: tên gồm 6 kí tự):");

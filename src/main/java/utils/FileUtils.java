@@ -9,14 +9,14 @@ import java.util.List;
 public class FileUtils {
     public static <T> List<T> readData(String fileName, Class<T> clazz) {
         List<T> datas = new ArrayList<>();
-        FileReader fileReader=null;
-        BufferedReader bufferedReader= null;
+        FileReader fileReader = null;
+        BufferedReader bufferedReader = null;
 
         try {
             fileReader = new FileReader(fileName);
-            bufferedReader= new BufferedReader(fileReader);
+            bufferedReader = new BufferedReader(fileReader);
             String Line = null;
-            while ((Line= bufferedReader.readLine())!=null) {
+            while ((Line = bufferedReader.readLine()) != null) {
 
                 //System.out.println(Line);
                 //String[] items = Line.split(",");
@@ -34,7 +34,7 @@ public class FileUtils {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 fileReader.close();
             } catch (IOException e) {
@@ -48,19 +48,20 @@ public class FileUtils {
         }
         return datas;
     }
-    public static  <T> void writerData(String fileName, List<T> data)  {
+
+    public static <T> void writerData(String fileName, List<T> data) {
 
         FileWriter fileWriter = null;
         try {
             File file = new File(fileName);
             fileWriter = new FileWriter(file);
-            for(T item: data){
-                fileWriter.write(item.toString()+ "\n");
+            for (T item : data) {
+                fileWriter.write(item.toString() + "\n");
 
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 fileWriter.close();
             } catch (IOException e) {

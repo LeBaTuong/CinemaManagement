@@ -1,7 +1,9 @@
 package utils;
+
 import org.mindrot.jbcrypt.BCrypt;
+
 public class PasswordUtils {
-    public static boolean isValid(String passwordCheck, String password){
+    public static boolean isValid(String passwordCheck, String password) {
         // password: $2a$12$OFOICietLS3.qRtzIe6jE.vF.fmtL22DqIZ18WNMmQ.8nS7Frq5aO <= "123123"
         // passwordCheck: "123444"
         return BCrypt.checkpw(passwordCheck, password);

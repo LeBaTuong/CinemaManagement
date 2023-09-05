@@ -1,6 +1,9 @@
 package utils;
 
+import models.Seat;
+
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -24,6 +27,7 @@ public class AppUtils {
             return getString(str);
         }
     }
+
     public static int getInt(String str) {
         try {
             return Integer.parseInt(getString(str));
@@ -45,6 +49,7 @@ public class AppUtils {
             return getIntWithBound(str, begin, end);
         }
     }
+
     public static String getStringWithPattern(String str, String pattern) {
         String result = getString(str);
         if (!Pattern.compile(pattern).matcher(result).matches()) {
@@ -53,6 +58,7 @@ public class AppUtils {
         }
         return result;
     }
+
     public static String getStringWithPattern1(String str, String pattern) {
         String result = getString(str);
         if (!Pattern.compile(pattern).matcher(result).matches()) {
@@ -61,6 +67,7 @@ public class AppUtils {
         }
         return result;
     }
+
     public static LocalDate getUserDateOfBirth() {
         System.out.println("Enter DOB(Nhập ngày sinh)");
         LocalDate userInput = null;
@@ -90,6 +97,7 @@ public class AppUtils {
 
         return userInput;
     }
+
     public static LocalDate getDate() {
         String input = sc.nextLine();
         try {
@@ -99,15 +107,10 @@ public class AppUtils {
             return getDate();
         }
     }
-//    public static void printBillFromTo(LocalDate start, LocalDate end) {
-//        List<Bill> billss = billList.stream()
-//                .filter(bill -> bill.getStarDate().isAfter(start.minusDays(1))
-//                        && bill.getEndDate().isBefore(end.plusDays(1)))
-//                .toList();
+//    public static void checkSeat(String seat) {
 //
-//        double totalAmount = 0.0;
-//        for (Bill bill : billss) {
-//            if (!bill.getStatus().equals(EStatusBill.DELETE)) {
+//
+//            if (seat.g.equals(EStatusBill.DELETE)) {
 //
 //                totalAmount += bill.getTotal();
 //            }

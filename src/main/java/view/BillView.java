@@ -16,28 +16,20 @@ public class BillView {
     ClientService clientService = new ClientService();
     ScheduleView scheduleView = new ScheduleView();
     TicketView ticketView = new TicketView();
+
     Bill bill = new Bill();
+
     public void laucher() {
         boolean checkAction = false;
         do {
-            System.out.println("Menu quản lý user: ");
-            System.out.println("Nhập 1.xem danh sách order ");
-            System.out.println("Nhập 2. show order");
-            System.out.println("Nhập 3. thêm order");
-            System.out.println("Nhập 4. sửa sản phẩm theo ID");
-            System.out.println("Nhập 5: Xóa sản phẩm");
-            System.out.println("Nhập 5: Sắp xếp theo (Vào trong chọn thêm menu: tên/tuổi/giới tính/dob + TĂNG DẦN/GIẢM DẦN) ");
-            System.out.println("Nhập 6: Tìm kiếm theo ");
 
-            /**
-             System.out.println("Menu quản lý Sản phẩm: ");
-             System.out.println("Nhập 1. Xem danh sách ");
-             System.out.println("Nhập 2. Thêm user");
-             System.out.println("Nhập 3. Sửa user");
-             System.out.println("Nhập 4. Xóa user theo ID");
-             System.out.println("Nhập 5: Sắp xếp theo (Vào trong chọn thêm menu: tên/tuổi/giới tính/dob + TĂNG DẦN/GIẢM DẦN) ");
-             System.out.println("Nhập 6: Tìm kiếm theo ");
-             */
+            System.out.println("===========================================================");
+            System.out.println("||                 Menu quản lý Bill                     ||");
+            System.out.println("|| ----------------------------------------------------- ||");
+            System.out.println("|| Nhấn 1: Xem tất cả Bill                               ||");
+            System.out.println("|| Nhấn 2: Xem chi tiết Bill với ID Khách hàng           ||");
+            System.out.println("|| Nhấn 3: Quay lại                                      ||");
+            System.out.println("===========================================================");
 
             int actionMenu = Integer.parseInt(scanner.nextLine());
             switch (actionMenu) {
@@ -46,20 +38,21 @@ public class BillView {
                     break;
                 }
                 case 2: {
-                    showByBillID();
+                    showBillClient1();
+                    //showBillClient();
                     break;
                 }
                 case 3: {
-                    CreateBill();
+                    //showBillClient1();
                     break;
 
                 }
                 case 4: {
-                    //RevenueBill();
+                    CreateBill();
                     break;
                 }
                 case 5: {
-                    //deleteProduct();
+                    deleteBill();
                     break;
                 }
 
@@ -69,41 +62,53 @@ public class BillView {
 
     }
 
+    public void deleteBill() {
+        BillView billView = new BillView();
+        System.out.println("Nhập id khách hàng");
+        long idClient = Long.parseLong(scanner.nextLine());
+        billView.showBillClient(idClient);
+        System.out.println("Nhập id Bill cần xóa");
+        long idBill = Long.parseLong(scanner.nextLine());
+        billService.deleteBillByID(idBill);
+        System.out.println("đã được xóa thành công");
+        //billService.deleteBillDetailByID(id);
+
+    }
 
 
-    private void CreateBill() {
+    public void CreateBill() {
         Bill bill = new Bill();
-        bill.setBillID(System.currentTimeMillis()%10000);
-        boolean checkContinueBilldetail= false;
-        do{
+        bill.setBillID(System.currentTimeMillis() % 10000);
+        boolean checkContinueBilldetail = false;
+        do {
             Ticket ticket = new Ticket();
-            long ticketID = (System.currentTimeMillis()%10000);
+            long ticketID = (System.currentTimeMillis() % 10000);
 
             ticketView.addTicket();
             ticket.setTicketID(ticketID);
-            if(bill.getBilldetailList()==null){
-                Billdetail billdetail = new Billdetail(System.currentTimeMillis()%10000,bill.getBillID(),ticketID);
+            if (bill.getBilldetailList() == null) {
+                Billdetail billdetail = new Billdetail(System.currentTimeMillis() % 10000, bill.getBillID(), ticketID);
                 List<Billdetail> billdetails = new ArrayList<>();
                 billdetails.add(billdetail);
                 bill.setBilldetailList(billdetails);
-            }else {
-                Billdetail billdetail = new Billdetail(System.currentTimeMillis()%10000,bill.getBillID(),ticketID);
+            } else {
+                Billdetail billdetail = new Billdetail(System.currentTimeMillis() % 10000, bill.getBillID(), ticketID);
                 bill.getBilldetailList().add(billdetail);
             }
             System.out.println("Bạn có muốn thêm tiếp sản phẩm không:Y/N ");
-            String actioncotinue= scanner.nextLine();
-            switch (actioncotinue){
+            String actioncotinue = scanner.nextLine();
+            switch (actioncotinue) {
                 case "Y": {
-                    checkContinueBilldetail= true;
+                    checkContinueBilldetail = true;
                     break;
                 }
                 case "N": {
-                    checkContinueBilldetail= false;
+                    checkContinueBilldetail = false;
                     break;
                 }
             }
 
-        }while (checkContinueBilldetail);
+        } while (checkContinueBilldetail);
         System.out.println("Nhập id của bạn: ");
         long clientID = Long.parseLong(scanner.nextLine());
         bill.setClientID(clientID);
@@ -113,29 +118,29 @@ public class BillView {
     }
     //public boolean
 
-    private void showByBillID() {
-        System.out.println("Nhập billID cần show");
-        long id = Long.parseLong(scanner.nextLine());
-        Bill bill = billService.findBill(id);
-        System.out.println("mã hóa đơn: " + bill.getBillID());
-        Client client = clientService.findClientById(bill.getClientID());
-        System.out.println("FullName: " + client.getFullName());
-        double total = 0;
-        int count=0;
-        for(Billdetail b: bill.getBilldetailList()){
-             Ticket t= ticketService.findTicketbyID(b.getTicketID());
-             ticketView.showTicketByID(t.getTicketID());
-             count++;
-              //ticketView.showTicketByID(t.getTicketID());
+//    private void showByBillID() {
+//        System.out.println("Nhập billID cần show");
+//        long id = Long.parseLong(scanner.nextLine());
+//        Bill bill = billService.findBill(id);
+//        System.out.println("mã hóa đơn: " + bill.getBillID());
+//        Client client = clientService.findClientById(bill.getClientID());
+//        System.out.println("FullName: " + client.getFullName());
+//        double total = 0;
+//        int count=0;
+//        for(Billdetail b: bill.getBilldetailList()){
+//             Ticket t= ticketService.findTicketbyID(b.getTicketID());
+//             ticketView.showTicketByID(t.getTicketID());
+//             count++;
+//              ticketView.showTicketByID(t.getTicketID());
 //            System.out.printf("%-20s | %10s | %10s\n", t.getScheduleID(), ot.getQuantity(), ot.getQuantity()*ot.getPrice());
 //           //count++;
-
-           // scheduleView.showScheduleID(t.getScheduleID());
-
-        }
-        total=count*45000;
-        System.out.println("tổng tiền: " + total);
-    }
+//
+//            scheduleView.showScheduleID(t.getScheduleID());
+//
+//        }
+//        total=count*45000;
+//        System.out.println("tổng tiền: " + total);
+//    }
 
     private void showBill() {
         List<Bill> billList = billService.getAllBill();
@@ -144,6 +149,35 @@ public class BillView {
             Client client = clientService.findClientById(bill.getClientID());
             System.out.printf("%10s | %20s | %20s \n",
                     bill.getBillID(), bill.getTotal(), client.getFullName());
+        }
+    }
+
+    private void showBillClient(long clientID) {
+//        System.out.println("Nhập id Client cần show:");
+//        long clientID = Long.parseLong(scanner.nextLine());
+        List<Bill> bills = billService.findBillbyClientID(clientID);
+
+        System.out.printf("%10s | %20s | %20s  \n", "ID", "Total", "FULLNAME");
+        for (Bill bill : bills) {
+            Client client = clientService.findClientById(bill.getClientID());
+            System.out.printf("%10s | %20s | %20s \n",
+                    bill.getBillID(), bill.getTotal(), client.getFullName());
+            System.out.println("Hiển thị ticket cụ thể:");
+            ticketView.showTicketByIDByIDClient1(clientID);
+        }
+    }
+    private void showBillClient1() {
+        System.out.println("Nhập id Client cần show:");
+        long clientID = Long.parseLong(scanner.nextLine());
+        List<Bill> bills = billService.findBillbyClientID(clientID);
+
+        System.out.printf("%10s | %20s | %20s  \n", "ID", "Total", "FULLNAME");
+        for (Bill bill : bills) {
+            Client client = clientService.findClientById(bill.getClientID());
+            System.out.printf("%10s | %20s | %20s \n",
+                    bill.getBillID(), bill.getTotal(), client.getFullName());
+            System.out.println("Hiển thị ticket cụ thể:");
+            ticketView.showTicketByIDByIDClient1(clientID);
         }
     }
 

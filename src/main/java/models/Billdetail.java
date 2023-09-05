@@ -2,10 +2,13 @@ package models;
 
 import serivce.IParseModel;
 
+import java.util.List;
+
 public class Billdetail implements IParseModel<Billdetail> {
     private long billdetailid;
     private long billId;
     private long ticketID;
+    List<Ticket> ticketList;
 
 
     public Billdetail() {
@@ -15,6 +18,14 @@ public class Billdetail implements IParseModel<Billdetail> {
         this.billdetailid = billdetailid;
         this.billId = billId;
         this.ticketID = ticketID;
+    }
+
+    public List<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
     }
 
     public long getBilldetailid() {

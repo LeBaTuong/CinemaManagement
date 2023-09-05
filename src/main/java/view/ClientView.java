@@ -11,49 +11,47 @@ import java.util.Scanner;
 public class ClientView {
     Scanner scanner = new Scanner(System.in);
     static ClientService iClientService;
-    public ClientView(){
+
+    public ClientView() {
         iClientService = new ClientService();
     }
-    public void laucher(){
+
+    public void laucher() {
         boolean checkAction = false;
         do {
-            System.out.println("client manage menulist: ");
-            System.out.println("1. List Client");
-            System.out.println("2. find Client");
-            System.out.println("3. Remove Client");
-            System.out.println("4. Get Client's detail");
-            System.out.println("Nhập 5: Sắp xếp theo (Vào trong chọn thêm menu: tên/tuổi/giới tính/dob + TĂNG DẦN/GIẢM DẦN) ");
-            System.out.println("Nhập 6: adđ kiếm theo ");
-            System.out.println("0. Back to Menu");
 
-            /**
-             System.out.println("Menu quản lý Sản phẩm: ");
-             System.out.println("Nhập 1. Xem danh sách ");
-             System.out.println("Nhập 2. Thêm user");
-             System.out.println("Nhập 3. Sửa user");
-             System.out.println("Nhập 4. Xóa user theo ID");
-             System.out.println("Nhập 5: Sắp xếp theo (Vào trong chọn thêm menu: tên/tuổi/giới tính/dob + TĂNG DẦN/GIẢM DẦN) ");
-             System.out.println("Nhập 6: Tìm kiếm theo ");
-             */
+            System.out.println("===========================================================");
+            System.out.println("||                 Menu quản lý Khách hàng               ||");
+            System.out.println("|| ----------------------------------------------------- ||");
+            System.out.println("|| Nhấn 1: xem danh sách tài khoản                       ||");
+            System.out.println("|| Nhấn 2: Tìm kiếm tài khoản khách hàng                 ||");
+            System.out.println("|| Nhấn 3: Xóa tài khoản khách hàng                      ||");
+            System.out.println("|| Nhấn 4: Quay lại                                      ||");
+            System.out.println("===========================================================");
 
             int actionMenu = Integer.parseInt(scanner.nextLine());
             switch (actionMenu) {
                 case 1: {
                     showClinet();
                     break;
-                } case 2: {
+                }
+                case 2: {
                     searchClient();
                     break;
-                }case 3: {
+                }
+                case 3: {
                     removeClient();
                     break;
-                } case 4:{
+                }
+                case 4: {
                     addClient();
+                }
+                case 5: {
+                    showClientByEmail();
                 }
 
             }
-        }while (checkAction);
-
+        } while (checkAction);
 
 
     }
@@ -79,7 +77,7 @@ public class ClientView {
 
     private void removeClient() {
         System.out.println("Enter the ID you want to remove: ");
-        long id= Long.parseLong(scanner.nextLine());
+        long id = Long.parseLong(scanner.nextLine());
         iClientService.deleteClient(id);
         showClinet();
 
@@ -119,14 +117,25 @@ public class ClientView {
                 }
                 break;
             }
-        } while (choose!=0);
+        } while (choose != 0);
     }
 
     public static void showClinet() {
         //long id,String fullName, String email, long password, String phoneNumber, LocalDate dob, EAuth eAuth
         List<Client> clients = iClientService.getAllClient();
         System.out.printf("%10s | %30s | %30s | %10s | %10s | %20s | %20s \n", "ID", "FULLName", "EMAIL", "PASSWORD", "PHONENAME", "DOB", "AUTH");
-        for(Client c: clients){
+        for (Client c : clients) {
+            System.out.printf("%10s | %30s | %30s | %10s | %10s | %20s | %20s \n",
+                    c.getId(), c.getFullName(), c.getEmail(), c.getPassword(), c.getPhoneNumber(), DateUtils.fomatLocalDate(c.getDob()), c.geteAuth());
+
+        }
+    }
+
+    public void showClientByEmail() {
+        System.out.println("Enter the Auth you want to search: ");
+        String email = scanner.nextLine();
+        List<Client> clients = iClientService.searcClient(email);
+        for (Client c : clients) {
             System.out.printf("%10s | %30s | %30s | %10s | %10s | %20s | %20s \n",
                     c.getId(), c.getFullName(), c.getEmail(), c.getPassword(), c.getPhoneNumber(), DateUtils.fomatLocalDate(c.getDob()), c.geteAuth());
 

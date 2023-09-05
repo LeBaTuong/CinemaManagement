@@ -13,10 +13,14 @@ import java.util.concurrent.SynchronousQueue;
 public class MovieView {
     Scanner scanner = new Scanner(System.in);
     MovieService movieService;
-    public MovieView(){
+    static boolean checkActionMenu = true;
+    static boolean repeatMenu = true;
+
+    public MovieView() {
         movieService = new MovieService();
     }
-    public void laucher(){
+
+    public void laucher() {
         boolean checkAction = false;
         do {
             System.out.println("client manage menulist: ");
@@ -43,13 +47,16 @@ public class MovieView {
                 case 1: {
                     showMovies();
                     break;
-                } case 2: {
+                }
+                case 2: {
                     searchMovies();
                     break;
-                }case 3: {
+                }
+                case 3: {
                     removeMovie();
                     break;
-                } case 4:{
+                }
+                case 4: {
                     addMovie();
                     break;
                 }
@@ -58,8 +65,7 @@ public class MovieView {
                 }
 
             }
-        }while (checkAction);
-
+        } while (checkAction);
 
 
     }
@@ -85,7 +91,7 @@ public class MovieView {
         int eMovieType = Integer.parseInt(scanner.nextLine());
         EMovieType eMovieType1 = EMovieType.getStatusMovieType(eMovieType);
 
-        Movie movie = new Movie(System.currentTimeMillis()%100000, name, description, rate, eMovieType1);
+        Movie movie = new Movie(System.currentTimeMillis() % 100000, name, description, rate, eMovieType1);
 
         movieService.createMovie(movie);
 
@@ -95,7 +101,7 @@ public class MovieView {
 
     private void removeMovie() {
         System.out.println("Enter the ID you want to remove: ");
-        long id= Long.parseLong(scanner.nextLine());
+        long id = Long.parseLong(scanner.nextLine());
         movieService.deleteMovie(id);
         showMovies();
     }
@@ -130,18 +136,36 @@ public class MovieView {
                     }
 
                 }
-                case 0: {
-                }
-                break;
+                default:
+                    System.err.println("Nhập không đúng, vui lòng nhập lại !!!");
+                    continue;
             }
-        } while (choose!=0);
+            do {
+                System.out.println("Ban có muốn tiếp tục tìm kiếm tên phim hay không? ");
+                System.out.println("Nhập 1. Tiếp tục");
+                System.out.println("Nhập 2. Kết thúc");
+                int actionMenuContinue = Integer.parseInt(scanner.nextLine());
+                switch (actionMenuContinue) {
+                    case 1:
+                        checkActionMenu = true;
+                        repeatMenu = false;
+                        break;
+                    case 2:
+                        checkActionMenu = false;
+                        repeatMenu = false;
+                        break;
+                    default:
+                        System.out.println("Không đúng lệnh, vui lòng nhập lại:");
+                }
+            } while (repeatMenu);
+        } while (checkActionMenu);
     }
 
     private void showMovies() {
         //long movieId, String movieName, String movieDescription, double rate, EMovieType eMovieType
         List<Movie> movies = movieService.getAllMovies();
         System.out.printf("%10s | %30s | %30s | %10s | %10s  \n", "ID", "FULLName", "EMAIL", "PASSWORD", "PHONENAME");
-        for(Movie m: movies){
+        for (Movie m : movies) {
             System.out.printf("%10s | %30s | %30s | %10s | %10s \n",
                     m.getMovieId(), m.getMovieName(), m.getMovieDescription(), m.getRate(), m.geteMovieType());
 

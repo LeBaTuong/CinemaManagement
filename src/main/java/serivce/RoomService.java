@@ -29,7 +29,8 @@ public class RoomService {
         }
         return rooms;
     }
-    public List<Room> getAllRoomSchedule(){
+
+    public List<Room> getAllRoomSchedule() {
         List<Room> rooms = FileUtils.readData(fileRoom, Room.class);
         for (Room room : rooms) {
             List<Schedule> schedules = scheduleService.getAllScheduleByRoomID(room.getRoomID());
@@ -37,7 +38,8 @@ public class RoomService {
         }
         return rooms;
     }
-    public Room findRoomByIDRoomSchedule(long id){
+
+    public Room findRoomByIDRoomSchedule(long id) {
         List<Room> rooms = getAllRoomSchedule();
         return rooms.stream().filter(room -> room.getRoomID() == id).findFirst().orElseThrow(null);
     }
@@ -58,7 +60,6 @@ public class RoomService {
         List<Room> rooms = getAllRoom();
         return rooms.stream().filter(room -> room.getRoomID() == id).findFirst().orElseThrow(null);
     }
-
 
 
 }

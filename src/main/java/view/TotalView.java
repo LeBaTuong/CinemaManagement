@@ -9,7 +9,6 @@ public class TotalView {
     //static ClientView clientView = new ClientView();
     static int choice;
 
-
     public static void menu() {
         menuTotal();
         choice = AppUtils.getIntWithBound("              Enter your choice(Mời chọn chức năng):", 0, 2);

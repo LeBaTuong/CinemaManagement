@@ -1,2 +1,2 @@
-1,phong 1,16
-2,phong 2,16
+1,Phòng 1,8
+2,Phòng 2,8

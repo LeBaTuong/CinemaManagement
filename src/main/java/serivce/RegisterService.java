@@ -11,7 +11,7 @@ public class RegisterService {
 
     public static String registerCheckUserName(String str) {
         String userName = getString(str);
-        if(!ValidateUtils.isEmailValid(userName)){
+        if (!ValidateUtils.isEmailValid(userName)) {
             System.err.println("Input error(Nhập sai)");
             System.out.println("Please enter again(Mời nhập lại):");
             return registerCheckUserName(str);
@@ -21,9 +21,9 @@ public class RegisterService {
             System.out.println("Please enter again(Mời nhập lại):");
             return registerCheckUserName(str);
         }
-
         return userName;
     }
+
     public static boolean isUserNameTaken(String email) {
 
         ClientService clientService = ClientService.getInstance();
@@ -45,17 +45,37 @@ public class RegisterService {
                     menu();
                 }
             }
-
-        } return passWord;
+        }
+        return passWord;
     }
+
     public static String registerCheckName(String str) {
         String name = getString(str);
-        if(!(name.length() >= 6)){
+        if (!(name.length() >= 6)) {
             System.err.println("Input error(Nhập sai).");
             System.out.println("1.Continue( Tiếp tục).");
             System.out.println("0.Go back (Quay lại).");
             choice = AppUtils.getIntWithBound("Enter your choice(Mời chọn):", 0, 1);
-            switch (choice){
+            switch (choice) {
+                case 1: {
+                    registerCheckName(str);
+                }
+                case 0: {
+                    menu();
+                }
+            }
+        }
+        return name;
+    }
+
+    public static String registerCheckSeat(String str) {
+        String name = getString(str);
+        if (!(name.length() >= 6)) {
+            System.err.println("Input error(Nhập sai).");
+            System.out.println("1.Continue( Tiếp tục).");
+            System.out.println("0.Go back (Quay lại).");
+            choice = AppUtils.getIntWithBound("Enter your choice(Mời chọn):", 0, 1);
+            switch (choice) {
                 case 1: {
                     registerCheckName(str);
                 }

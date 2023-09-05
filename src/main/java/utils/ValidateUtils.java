@@ -20,10 +20,11 @@ public class ValidateUtils {
 
     // "quangdang", "2quangdang"
     public static boolean isUserNameValid(String username) {
-        return  Pattern.matches(REGEX_USERNAME, username);
+        return Pattern.matches(REGEX_USERNAME, username);
     }
+
     public static boolean isEmailValid(String email) {
-        return  Pattern.matches(REGEX_EMAIL, email);
+        return Pattern.matches(REGEX_EMAIL, email);
     }
 
     public static boolean isPasswordValid(String password) {

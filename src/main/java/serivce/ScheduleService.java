@@ -21,25 +21,29 @@ import static utils.AppUtils.getString;
 public class ScheduleService {
     Scanner scanner = new Scanner(System.in);
     private static final String fileSchedule = "./data/schedules.txt";
+
     public static List<Schedule> getAllschedule() {
         List<Schedule> schedules = FileUtils.readData(fileSchedule, Schedule.class);
         return schedules;
     }
-    public List<Schedule> getAllScheduleByRoomID(long roomID){
+
+    public List<Schedule> getAllScheduleByRoomID(long roomID) {
         List<Schedule> schedules = getAllschedule();
-        List<Schedule> result = schedules.stream().filter(schedule -> schedule.getRoomID()==roomID).collect(Collectors.toList());
+        List<Schedule> result = schedules.stream().filter(schedule -> schedule.getRoomID() == roomID).collect(Collectors.toList());
         return result;
     }
+
     public Schedule findScheduleById(long id) {
-        List<Schedule> schedules =getAllschedule();
+        List<Schedule> schedules = getAllschedule();
 //        for(Order o: orders){
 //            if(o.getId()==id){
 //                return o;
 //            }
 //        }
-        Schedule result= schedules.stream().filter(schedule -> schedule.getScheduleID()==id).findFirst().orElseThrow(null);
+        Schedule result = schedules.stream().filter(schedule -> schedule.getScheduleID() == id).findFirst().orElseThrow(null);
         return result;
     }
+
     public void updateSchedule(long id) {
         List<Schedule> schedules = getAllschedule();
         System.out.println("Nhập id phòng caanf thay đổi: ");
@@ -49,19 +53,19 @@ public class ScheduleService {
         System.out.println("Nhập ngày chiếu cần thay đổi: ");
         LocalDate date = DateUtils.parseDate(scanner.nextLine());
         System.out.println("Nhập thời gian bắt đầu");
-        LocalTime time1=null;
+        LocalTime time1 = null;
         boolean checkContinueOrderItem = true;
 
         do {
-            time1= LocalTime.parse(scanner.nextLine());
+            time1 = LocalTime.parse(scanner.nextLine());
             if (!isValidTimeStartSchedule(roomID, date, time1)) {
                 System.err.println("The account already exists(Tài khoản đã tồn tại)");
                 System.out.println("Please enter again(Mời nhập lại):");
-                checkContinueOrderItem=true;
+                checkContinueOrderItem = true;
 
-            }else {
+            } else {
                 //System.out.println(time1);
-                checkContinueOrderItem=false;
+                checkContinueOrderItem = false;
             }
 
 
@@ -80,16 +84,19 @@ public class ScheduleService {
             }
         }
     }
-    public void deleteSchedule(long id){
+
+    public void deleteSchedule(long id) {
         List<Schedule> schedules = getAllschedule();
-        schedules.remove(schedules.stream().filter(schedule -> schedule.getScheduleID()==id).findFirst().orElseThrow(null));
+        schedules.remove(schedules.stream().filter(schedule -> schedule.getScheduleID() == id).findFirst().orElseThrow(null));
         FileUtils.writerData(fileSchedule, schedules);
     }
-    public void createSchedule(Schedule schedule){
+
+    public void createSchedule(Schedule schedule) {
         List<Schedule> schedules = getAllschedule();
         schedules.add(schedule);
         FileUtils.writerData(fileSchedule, schedules);
     }
+
     public boolean isSchedule(long roomId, LocalDate date) {
 
         List<Schedule> schedules = getAllschedule();
@@ -102,15 +109,16 @@ public class ScheduleService {
         return false;
 
     }
+
     public boolean isValidTimeStartSchedule(long roomId, LocalDate date, LocalTime time) {
 
-        int count  = 0;
+        int count = 0;
         List<Schedule> schedules = getAllschedule();
 //        schedules.stream().filter(e -> e.getRoomID()==roomId && e.getScheduleDate()==date).collect(Collectors.toList());
         for (Schedule s : schedules) {
             if (s.getRoomID() == roomId && s.getScheduleDate().equals(date)) {
                 count++;
-                if(isValidTimeStart(time, s.getScheduleEnd()))
+                if (isValidTimeStart(time, s.getScheduleEnd()))
                     return true;
             }
         }
@@ -121,6 +129,7 @@ public class ScheduleService {
         }
         return false;
     }
+
     //    public boolean isValidTimeStartSchedule(long roomId, LocalDate date, LocalTime time) {
 //
 //       int count  = 0;
@@ -140,7 +149,7 @@ public class ScheduleService {
 //        }
 //        return false;
 //    }
-    public boolean isValidTimeStart(LocalTime timePresent, LocalTime timeCheck){
+    public boolean isValidTimeStart(LocalTime timePresent, LocalTime timeCheck) {
         long minutesDifference = timeCheck.until(timePresent, ChronoUnit.MINUTES);
 
         if (minutesDifference >= 15 && minutesDifference <= 30) {
@@ -154,7 +163,7 @@ public class ScheduleService {
 
     public static void main(String[] args) {
         ScheduleService scheduleService = new ScheduleService();
-        System.out.println(scheduleService.isValidTimeStartSchedule(1, LocalDate.of(2023,8,31), LocalTime.of(15,35)));
+        System.out.println(scheduleService.isValidTimeStartSchedule(1, LocalDate.of(2023, 8, 31), LocalTime.of(15, 35)));
     }
 
 }

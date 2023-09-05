@@ -2,6 +2,7 @@ package models;
 
 import eNum.ESeatStatus;
 import serivce.IParseModel;
+import utils.DateUtils;
 
 public class Seat implements IParseModel {
     private long seatID;
@@ -61,5 +62,10 @@ public class Seat implements IParseModel {
         }
 
         return seat;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s", this.seatID, this.roomID,this.seatNumber,this.eSeatStatus);
     }
 }

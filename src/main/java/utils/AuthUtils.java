@@ -10,7 +10,7 @@ public class AuthUtils {
         AuthUtils.client = client;
     }
 
-    public static boolean hasRole(EAuth eAuth){
+    public static boolean hasRole(EAuth eAuth) {
         return client.geteAuth().equals(eAuth);
     }
 }
